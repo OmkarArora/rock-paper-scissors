@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { loginUser } from "../authentication/authSlice";
+import { signupUser } from "../authentication/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-export const Login = () => {
+export const SignUp = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -36,22 +38,29 @@ export const Login = () => {
       return;
       // return dispatch(showAlert({ type: "error", data: "Invalid email" }));
     }
-    dispatch(loginUser({ email, password }));
-  };
-
-  const onSubmitTestCreds = (e) => {
-    e.preventDefault();
-    console.log("TEST LOGIN");
-    dispatch(loginUser({ email: "user@gmail.com", password: "abcd@1234" }));
+    if (password !== confirmPassword) {
+      console.log("Password should match Confirm password");
+      return;
+    }
+    dispatch(signupUser({ name, email, password }));
   };
 
   return (
     <div className="container-auth">
       <header>Login</header>
       <small>
-        New here? <Link to="/signup">Sign Up</Link>
+        Already a member? <Link to="/login">Log In</Link>
       </small>
       <form className="form-auth" onSubmit={onSubmit}>
+        <label>
+          Name
+          <input
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
         <label>
           Email
           <input
@@ -70,10 +79,16 @@ export const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button type="submit">Log In</button>
-      </form>
-      <form className="form-auth form-test-creds" onSubmit={onSubmitTestCreds}>
-        <button type="submit">Log In with Test Credentials</button>
+        <label>
+          Confirm Password
+          <input
+            type="password"
+            required
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </label>
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   );
