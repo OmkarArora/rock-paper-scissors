@@ -1,14 +1,10 @@
 import React from "react";
 import { Routes, Route, useNavigate } from "react-router";
-import PrivateRoute from "./PrivateRoute";
-import { Counter, Login, SignUp } from "./features";
-import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
+import PrivateRoute from "./PrivateRoute";
+import { Counter, Login, SignUp, Game } from "./features";
 import { logoutUser } from "./features/authentication/authSlice";
-
-function Game() {
-  return <div>Game</div>;
-}
+import "./App.css";
 
 function Home() {
   return <div>Home</div>;
