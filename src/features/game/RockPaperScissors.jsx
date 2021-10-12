@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { randomNumberInRange } from "../../helper";
 
-export const RPSgame = () => {
+export const RockPaperScissors = ({ game }) => {
+  const { numOfRounds } = game;
   const [playerMove, setPlayerMove] = useState(null);
   const [cpuMove, setCpuMove] = useState(null);
 
@@ -10,6 +11,8 @@ export const RPSgame = () => {
 
   const [moveStatus, setMoveStatus] = useState("success");
   const [moveTimeout, setMoveTimeout] = useState(null);
+
+  const [currentRound, setRound] = useState(1);
 
   const moves = ["rock", "paper", "scissors"];
 
@@ -33,6 +36,7 @@ export const RPSgame = () => {
         setCpuMove(randomMove);
         setMoveStatus("success");
         computeResult(move, randomMove);
+        setRound((prev) => prev + 1);
       }, 500);
       setMoveTimeout(timeout);
     })();
@@ -48,22 +52,33 @@ export const RPSgame = () => {
   return (
     <div>
       <div>
+        {currentRound <= numOfRounds ? (
+          <>Round: {currentRound}</>
+        ) : (
+          "Final Scores"
+        )}
+      </div>
+      <div>
         Scores:
         <div>player: {playerScore}</div>
         <div>CPU: {cpuScore}</div>
       </div>
-      <div>
-        Pick your move
-        <button onClick={() => clickMove("rock")}>Rock</button>
-        <button onClick={() => clickMove("paper")}>Paper</button>
-        <button onClick={() => clickMove("scissors")}>Scissors</button>
-      </div>
-      {moveStatus === "loading" && <div>Loading</div>}
-      {moveStatus === "success" && playerMove && cpuMove && (
-        <div>
-          <div>Your choice: {playerMove}</div>
-          <div>CPU: {cpuMove}</div>
-        </div>
+      {currentRound <= numOfRounds && (
+        <>
+          <div>
+            Pick your move
+            <button onClick={() => clickMove("rock")}>Rock</button>
+            <button onClick={() => clickMove("paper")}>Paper</button>
+            <button onClick={() => clickMove("scissors")}>Scissors</button>
+          </div>
+          {moveStatus === "loading" && <div>Loading</div>}
+          {moveStatus === "success" && playerMove && cpuMove && (
+            <div>
+              <div>Your choice: {playerMove}</div>
+              <div>CPU: {cpuMove}</div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
