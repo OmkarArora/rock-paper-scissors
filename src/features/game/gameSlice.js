@@ -15,6 +15,21 @@ export const createGame = createAsyncThunk(
   }
 );
 
+export const updateScore = createAsyncThunk(
+  "game/updateScore",
+  async ({ game }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND}/games/score`,
+        { game }
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const gameSlice = createSlice({
   name: "game",
   initialState: {
@@ -33,6 +48,17 @@ export const gameSlice = createSlice({
     },
     [createGame.rejected]: (state, action) => {
       state.error = "Error in creating a game";
+      state.status = "error";
+    },
+    [updateScore.pending]: (state) => {
+      state.status = "loading";
+    },
+    [updateScore.fulfilled]: (state, action) => {
+      state.gameData = action.payload.game;
+      state.status = "fulfilled";
+    },
+    [updateScore.rejected]: (state) => {
+      state.error = "Error in updating scores";
       state.status = "error";
     },
   },

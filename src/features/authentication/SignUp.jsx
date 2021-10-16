@@ -59,6 +59,7 @@ export const SignUp = () => {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
+            autoComplete="name"
           />
         </label>
         <label>
@@ -68,6 +69,7 @@ export const SignUp = () => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoComplete="username"
           />
         </label>
         <label>
@@ -77,6 +79,7 @@ export const SignUp = () => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete="new-password"
           />
         </label>
         <label>
@@ -86,6 +89,7 @@ export const SignUp = () => {
             required
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            autoComplete="new-password"
           />
         </label>
         <button type="submit">Sign Up</button>

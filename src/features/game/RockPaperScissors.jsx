@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import { randomNumberInRange } from "../../helper";
+import { updateScore } from "./gameSlice";
 
 export const RockPaperScissors = ({ game }) => {
   const { numOfRounds } = game;
@@ -13,6 +16,10 @@ export const RockPaperScissors = ({ game }) => {
   const [moveTimeout, setMoveTimeout] = useState(null);
 
   const [currentRound, setRound] = useState(1);
+  const [isScoreUpdated, setScoreUpdateStatus] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const moves = ["rock", "paper", "scissors"];
 
@@ -26,6 +33,25 @@ export const RockPaperScissors = ({ game }) => {
   useEffect(() => {
     return () => clearInterval(moveTimeout);
   });
+
+  useEffect(() => {
+    if (!isScoreUpdated && currentRound > numOfRounds) {
+      let _game = {
+        _id: game._id,
+        score: { user: playerScore, cpu: cpuScore },
+      };
+      dispatch(updateScore({ game: _game }));
+      setScoreUpdateStatus(true);
+    }
+  }, [
+    currentRound,
+    numOfRounds,
+    playerScore,
+    cpuScore,
+    game,
+    isScoreUpdated,
+    dispatch,
+  ]);
 
   function clickMove(move) {
     setPlayerMove(move);
@@ -79,6 +105,9 @@ export const RockPaperScissors = ({ game }) => {
             </div>
           )}
         </>
+      )}
+      {currentRound > numOfRounds && (
+        <button onClick={() => navigate("/")}>Home</button>
       )}
     </div>
   );
