@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from "react-router";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRoute from "./PrivateRoute";
-import { Counter, Login, SignUp, Game } from "./features";
+import { Login, SignUp, Game } from "./features";
 import { logoutUser } from "./features/authentication/authSlice";
 import { setupAuthHeaderForServiceCalls } from "./helper";
 import "./App.css";
@@ -41,7 +41,6 @@ function App() {
       <nav>
         <button onClick={() => navigate("/")}>Home</button>
         <button onClick={() => navigate("/game")}>Game</button>
-        <button onClick={() => navigate("/counter")}>Counter</button>
         {isUserLoggedIn ? (
           <button onClick={() => dispatch(logoutUser())}>Log out</button>
         ) : (
@@ -52,7 +51,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <PrivateRoute path="/game" element={<Game />} />
-          <Route path="/counter" element={<Counter />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
