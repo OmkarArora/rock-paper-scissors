@@ -29,6 +29,7 @@ nav {
   font-size: 2rem;
   font-weight: bold;
   gap: 0.5rem;
+  cursor: pointer;
 }
 
 .logo img {

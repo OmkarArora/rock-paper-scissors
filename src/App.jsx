@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from "react-router";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRoute from "./PrivateRoute";
-import { Login, SignUp, Game } from "./features";
+import { Login, SignUp, Game, Leaderboard } from "./features";
 import {
   getUserDetailsFromUsername,
   logoutUser,
@@ -18,9 +18,11 @@ function Home() {
   return (
     <div className="container-actions">
       <button className="btn-action" onClick={() => navigate("/game")}>
-        New Game
+        Start New Game
       </button>
-      <button className="btn-action">Leaderboards</button>
+      <button className="btn-action" onClick={() => navigate("/leaderboard")}>
+        Leaderboard
+      </button>
     </div>
   );
 }
@@ -63,7 +65,7 @@ function App() {
   return (
     <div className="App">
       <nav>
-        <div className="logo">
+        <div className="logo" onClick={() => navigate("/")}>
           <img src={Logo} alt="puzzle" />
           PlayGames
         </div>
@@ -91,6 +93,7 @@ function App() {
           <PrivateRoute path="/game" element={<Game />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
         </Routes>
       </main>
     </div>
