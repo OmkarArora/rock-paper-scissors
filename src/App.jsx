@@ -67,23 +67,36 @@ function App() {
       <nav>
         <div className="logo" onClick={() => navigate("/")}>
           <img src={Logo} alt="puzzle" />
-          PlayGames
+          Rock Paper Scissors
         </div>
         <div>
           {isUserLoggedIn ? (
-            <div className="user-info">
-              {userData && (
-                <span>
-                  <img
-                    src={`https://avatars.dicebear.com/api/croodles/:${userData.username}.svg`}
-                    alt="avatar"
-                  />
-                  {userData.username}
-                </span>
-              )}
+            <div className="log-info">
+              <div className="user-info">
+                {userData && (
+                  <span>
+                    <img
+                      src={`https://avatars.dicebear.com/api/croodles/:${userData.username}.svg`}
+                      alt="avatar"
+                    />
+                    {userData.username}
+                  </span>
+                )}
+              </div>
+              <button
+                className="btn-secondary"
+                onClick={() => dispatch(logoutUser())}
+              >
+                Log out
+              </button>
             </div>
           ) : (
-            <button onClick={() => navigate("/login")}>Login</button>
+            <button
+              className="btn-secondary"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </button>
           )}
         </div>
       </nav>

@@ -16,29 +16,33 @@ body {
   height: 100vh;
 }
 
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
 .btn-action {
   background-color: var(--color-primary);
   color: white;
-
-  outline: none;
-  border: none;
   padding: 1rem;
-
   font-size: 1.2rem;
   border-radius: 25px;
+}
 
-  cursor: pointer;
+.btn-secondary {
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  background-color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 25px;
 }
 
 .btn-move {
   background-color: var(--color-primary);
   color: white;
-  outline: none;
-  border: none;
-
   font-size: 1.3rem;
   padding: 1rem 1.2rem;
   border-radius: 50px;
-
-  cursor: pointer;
 }
