@@ -1,28 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createGame } from "./gameSlice";
 import { RockPaperScissors } from "./RockPaperScissors";
+import "./game.css";
 
 export const Game = () => {
-  const [isGameActive, setGameStatus] = useState(false);
   const { status, gameData } = useSelector((state) => state.game);
   const dispatch = useDispatch();
 
-  function startGame() {
-    dispatch(createGame());
-  }
-
   useEffect(() => {
-    if (status === "fulfilled" && gameData) {
-      setGameStatus(true);
-    }
-  }, [status, gameData]);
+    dispatch(createGame());
+  }, [dispatch]);
 
   return (
-    <div>
-      {!isGameActive && <button onClick={startGame}>Start new game</button>}
-      {status === "loading" && <div>creating game...</div>}
-      {isGameActive && <RockPaperScissors game={gameData} />}
+    <div className="main-game">
+      {status === "loading" || !gameData ? (
+        <div>creating game...</div>
+      ) : (
+        <RockPaperScissors game={gameData} />
+      )}
     </div>
   );
 };

@@ -4,22 +4,46 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRoute from "./PrivateRoute";
 import { Login, SignUp, Game } from "./features";
-import { logoutUser } from "./features/authentication/authSlice";
+import {
+  getUserDetailsFromUsername,
+  logoutUser,
+} from "./features/authentication/authSlice";
 import { setupAuthHeaderForServiceCalls } from "./helper";
+import Logo from "./assets/puzzle.png";
+
 import "./App.css";
 
 function Home() {
-  return <div>Home</div>;
+  const navigate = useNavigate();
+  return (
+    <div className="container-actions">
+      <button className="btn-action" onClick={() => navigate("/game")}>
+        New Game
+      </button>
+      <button className="btn-action">Leaderboards</button>
+    </div>
+  );
 }
 
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isUserLoggedIn, token } = useSelector((state) => state.auth);
+  const { isUserLoggedIn, token, userData } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
     setupAuthHeaderForServiceCalls(token);
   }, [token]);
+
+  useEffect(() => {
+    let login = JSON.parse(
+      localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_NAME)
+    );
+    if (login && !userData) {
+      dispatch(getUserDetailsFromUsername({ username: login.username }));
+    }
+  }, [userData, dispatch]);
 
   useEffect(() => {
     // Setup Auth Exception Handler
@@ -39,13 +63,27 @@ function App() {
   return (
     <div className="App">
       <nav>
-        <button onClick={() => navigate("/")}>Home</button>
-        <button onClick={() => navigate("/game")}>Game</button>
-        {isUserLoggedIn ? (
-          <button onClick={() => dispatch(logoutUser())}>Log out</button>
-        ) : (
-          <button onClick={() => navigate("/login")}>Login</button>
-        )}
+        <div className="logo">
+          <img src={Logo} alt="puzzle" />
+          PlayGames
+        </div>
+        <div>
+          {isUserLoggedIn ? (
+            <div className="user-info">
+              {userData && (
+                <span>
+                  <img
+                    src={`https://avatars.dicebear.com/api/croodles/:${userData.username}.svg`}
+                    alt="avatar"
+                  />
+                  {userData.username}
+                </span>
+              )}
+            </div>
+          ) : (
+            <button onClick={() => navigate("/login")}>Login</button>
+          )}
+        </div>
       </nav>
       <main className="main">
         <Routes>

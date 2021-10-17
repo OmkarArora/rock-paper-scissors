@@ -38,6 +38,21 @@ export const signupUser = createAsyncThunk(
   }
 );
 
+export const getUserDetailsFromUsername = createAsyncThunk(
+  "auth/getUserDetailsFromUsername",
+  async ({ username }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND}/users/username`,
+        { username }
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 let login = JSON.parse(
   localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_NAME)
 );
@@ -116,6 +131,28 @@ export const authSlice = createSlice({
       );
     },
     [signupUser.rejected]: (state, action) => {
+      state.status = "error";
+      if (action.payload && action.payload.errorMessage)
+        state.error = action.payload.errorMessage;
+      else state.error = "Something went wrong";
+    },
+    [getUserDetailsFromUsername.pending]: (state) => {
+      state.status = "loading";
+    },
+    [getUserDetailsFromUsername.fulfilled]: (state, action) => {
+      const user = action.payload.user;
+      state.userData = user;
+
+      localStorage?.setItem(
+        process.env.REACT_APP_LOCALSTORAGE_NAME,
+        JSON.stringify({
+          username: user.username,
+          userId: user._id,
+          token: state.token,
+        })
+      );
+    },
+    [getUserDetailsFromUsername.rejected]: (state, action) => {
       state.status = "error";
       if (action.payload && action.payload.errorMessage)
         state.error = action.payload.errorMessage;

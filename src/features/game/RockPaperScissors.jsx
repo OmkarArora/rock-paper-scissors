@@ -3,6 +3,12 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { randomNumberInRange } from "../../helper";
 import { updateScore } from "./gameSlice";
+import {
+  FaRandom,
+  FaHandRock,
+  FaHandPaper,
+  FaHandScissors,
+} from "react-icons/fa";
 
 export const RockPaperScissors = ({ game }) => {
   const { numOfRounds } = game;
@@ -16,7 +22,6 @@ export const RockPaperScissors = ({ game }) => {
   const [moveTimeout, setMoveTimeout] = useState(null);
 
   const [currentRound, setRound] = useState(1);
-  const [isScoreUpdated, setScoreUpdateStatus] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,25 +39,6 @@ export const RockPaperScissors = ({ game }) => {
     return () => clearInterval(moveTimeout);
   });
 
-  useEffect(() => {
-    if (!isScoreUpdated && currentRound > numOfRounds) {
-      let _game = {
-        _id: game._id,
-        score: { user: playerScore, cpu: cpuScore },
-      };
-      dispatch(updateScore({ game: _game }));
-      setScoreUpdateStatus(true);
-    }
-  }, [
-    currentRound,
-    numOfRounds,
-    playerScore,
-    cpuScore,
-    game,
-    isScoreUpdated,
-    dispatch,
-  ]);
-
   function clickMove(move) {
     setPlayerMove(move);
     (function () {
@@ -63,7 +49,7 @@ export const RockPaperScissors = ({ game }) => {
         setMoveStatus("success");
         computeResult(move, randomMove);
         setRound((prev) => prev + 1);
-      }, 500);
+      }, 200);
       setMoveTimeout(timeout);
     })();
   }
@@ -75,39 +61,72 @@ export const RockPaperScissors = ({ game }) => {
     } else setCpuScore((prev) => prev + 1);
   }
 
+  function getMoveIcon(move) {
+    if (move === "rock") return <FaHandRock />;
+    if (move === "paper") return <FaHandPaper />;
+    if (move === "scissors") return <FaHandScissors />;
+    return <FaRandom />;
+  }
+
   return (
-    <div>
+    <div className="container-game">
       <div>
-        {currentRound <= numOfRounds ? (
-          <>Round: {currentRound}</>
+        {currentRound > numOfRounds ? (
+          "FINAL SCORES"
         ) : (
-          "Final Scores"
+          <>ROUND {currentRound}</>
         )}
       </div>
-      <div>
-        Scores:
-        <div>player: {playerScore}</div>
-        <div>CPU: {cpuScore}</div>
+      <div className="scores">
+        <div>
+          Player <div>{playerScore}</div>
+        </div>
+        <div>
+          CPU <div>{cpuScore}</div>
+        </div>
+      </div>
+      <div className="container-moves">
+        <div>
+          <span className="icon-move">
+            {moveStatus !== "loading" && getMoveIcon(playerMove)}
+          </span>
+        </div>
+        <div>
+          <span className="icon-move">
+            {moveStatus !== "loading" && getMoveIcon(cpuMove)}
+          </span>
+        </div>
       </div>
       {currentRound <= numOfRounds && (
         <>
-          <div>
-            Pick your move
-            <button onClick={() => clickMove("rock")}>Rock</button>
-            <button onClick={() => clickMove("paper")}>Paper</button>
-            <button onClick={() => clickMove("scissors")}>Scissors</button>
+          <div className="container-moves">
+            <button className="btn-move" onClick={() => clickMove("rock")}>
+              <FaHandRock />
+            </button>
+            <button className="btn-move" onClick={() => clickMove("paper")}>
+              <FaHandPaper />
+            </button>
+            <button className="btn-move" onClick={() => clickMove("scissors")}>
+              <FaHandScissors />
+            </button>
           </div>
-          {moveStatus === "loading" && <div>Loading</div>}
-          {moveStatus === "success" && playerMove && cpuMove && (
-            <div>
-              <div>Your choice: {playerMove}</div>
-              <div>CPU: {cpuMove}</div>
-            </div>
-          )}
+          {moveStatus === "loading" && <div>Randomizing moves</div>}
         </>
       )}
       {currentRound > numOfRounds && (
-        <button onClick={() => navigate("/")}>Home</button>
+        <button
+          onClick={() => {
+            let _game = {
+              _id: game._id,
+              score: { user: playerScore, cpu: cpuScore },
+            };
+            dispatch(updateScore({ game: _game }));
+            navigate("/");
+          }}
+          className="btn-action"
+        >
+          Save and Exit
+        </button>
       )}
     </div>
   );

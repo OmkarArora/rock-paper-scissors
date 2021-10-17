@@ -46,7 +46,7 @@ export const gameSlice = createSlice({
       state.gameData = action.payload.game;
       state.status = "fulfilled";
     },
-    [createGame.rejected]: (state, action) => {
+    [createGame.rejected]: (state) => {
       state.error = "Error in creating a game";
       state.status = "error";
     },
