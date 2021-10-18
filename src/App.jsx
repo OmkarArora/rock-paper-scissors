@@ -15,14 +15,23 @@ import "./App.css";
 function Home() {
   const navigate = useNavigate();
   return (
-    <div className="container-actions">
-      <button className="btn-action" onClick={() => navigate("/game")}>
-        Start New Game
-      </button>
-      <button className="btn-action" onClick={() => navigate("/leaderboard")}>
-        Leaderboard
-      </button>
-    </div>
+    <>
+      <img src={HeroImage} alt="rock-paper-scissors" className="img-hero" />
+      <div className="container-actions">
+        <button
+          className="btn-primary rounded"
+          onClick={() => navigate("/game")}
+        >
+          Start New Game
+        </button>
+        <button
+          className="btn-primary rounded"
+          onClick={() => navigate("/leaderboard")}
+        >
+          Leaderboard
+        </button>
+      </div>
+    </>
   );
 }
 
@@ -62,8 +71,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <img src={HeroImage} alt="rock-paper-scissors" className="img-hero" />
-      <main className="main">
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <PrivateRoute path="/game" element={<Game />} />

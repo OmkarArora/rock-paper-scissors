@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { loginUser } from "../authentication/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import "./auth.css";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -72,10 +73,14 @@ export const Login = () => {
             autoComplete="current-password"
           />
         </label>
-        <button type="submit">Log In</button>
+        <button type="submit" className="btn-primary">
+          Log In
+        </button>
       </form>
       <form className="form-auth form-test-creds" onSubmit={onSubmitTestCreds}>
-        <button type="submit">Log In with Test Credentials</button>
+        <button type="submit" className="btn-secondary">
+          Log In with Test Credentials
+        </button>
       </form>
     </div>
   );

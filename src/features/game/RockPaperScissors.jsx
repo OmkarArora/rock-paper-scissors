@@ -123,7 +123,7 @@ export const RockPaperScissors = ({ game }) => {
             dispatch(updateScore({ game: _game }));
             navigate("/");
           }}
-          className="btn-action"
+          className="btn-primary rounded"
         >
           Save and Exit
         </button>

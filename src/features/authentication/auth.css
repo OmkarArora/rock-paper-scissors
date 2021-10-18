@@ -1,0 +1,27 @@
+.container-auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-auth header {
+  font-size: 1.5rem;
+}
+
+.container-auth small {
+  font-size: 0.95rem;
+}
+
+.form-auth {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 400px;
+  max-width: 100%;
+  margin: 0 0 0.5rem 0;
+}
+
+.form-auth label {
+  display: flex;
+  flex-direction: column;
+}

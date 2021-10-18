@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { signupUser } from "../authentication/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import "./auth.css";
 
 export const SignUp = () => {
   const [name, setName] = useState("");
@@ -92,7 +93,9 @@ export const SignUp = () => {
             autoComplete="new-password"
           />
         </label>
-        <button type="submit">Sign Up</button>
+        <button type="submit" className="btn-primary">
+          Sign Up
+        </button>
       </form>
     </div>
   );

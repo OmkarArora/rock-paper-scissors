@@ -30,14 +30,17 @@ export const Navbar = () => {
               )}
             </div>
             <button
-              className="btn-secondary"
+              className="btn-secondary rounded"
               onClick={() => dispatch(logoutUser())}
             >
               Log out
             </button>
           </div>
         ) : (
-          <button className="btn-secondary" onClick={() => navigate("/login")}>
+          <button
+            className="btn-secondary rounded"
+            onClick={() => navigate("/login")}
+          >
             Login
           </button>
         )}
