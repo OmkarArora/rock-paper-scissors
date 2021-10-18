@@ -1,0 +1,27 @@
+.leaderboard {
+  display: flex;
+  justify-content: center;
+}
+
+.table-leaderboard {
+  border-collapse: collapse;
+  width: 80%;
+  margin-bottom: 1rem;
+}
+
+.table-leaderboard,
+.table-leaderboard th,
+.table-leaderboard td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.table-leaderboard th,
+.table-leaderboard td {
+  padding: 1rem;
+}
+
+.table-leaderboard th {
+  color: var(--color-primary);
+  font-size: 1.2rem;
+}
