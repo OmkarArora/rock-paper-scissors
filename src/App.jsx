@@ -3,14 +3,13 @@ import { Routes, Route, useNavigate } from "react-router";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRoute from "./PrivateRoute";
-import { Login, SignUp, Game, Leaderboard } from "./features";
+import { Login, SignUp, Game, Leaderboard, Navbar } from "./features";
 import {
   getUserDetailsFromUsername,
   logoutUser,
 } from "./features/authentication/authSlice";
 import { setupAuthHeaderForServiceCalls } from "./helper";
-import Logo from "./assets/puzzle.png";
-
+import HeroImage from "./assets/rps-game.gif";
 import "./App.css";
 
 function Home() {
@@ -30,9 +29,7 @@ function Home() {
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isUserLoggedIn, token, userData } = useSelector(
-    (state) => state.auth
-  );
+  const { token, userData } = useSelector((state) => state.auth);
 
   useEffect(() => {
     setupAuthHeaderForServiceCalls(token);
@@ -64,42 +61,8 @@ function App() {
 
   return (
     <div className="App">
-      <nav>
-        <div className="logo" onClick={() => navigate("/")}>
-          <img src={Logo} alt="puzzle" />
-          Rock Paper Scissors
-        </div>
-        <div>
-          {isUserLoggedIn ? (
-            <div className="log-info">
-              <div className="user-info">
-                {userData && (
-                  <span>
-                    <img
-                      src={`https://avatars.dicebear.com/api/croodles/:${userData.username}.svg`}
-                      alt="avatar"
-                    />
-                    {userData.username}
-                  </span>
-                )}
-              </div>
-              <button
-                className="btn-secondary"
-                onClick={() => dispatch(logoutUser())}
-              >
-                Log out
-              </button>
-            </div>
-          ) : (
-            <button
-              className="btn-secondary"
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </button>
-          )}
-        </div>
-      </nav>
+      <Navbar />
+      <img src={HeroImage} alt="rock-paper-scissors" className="img-hero" />
       <main className="main">
         <Routes>
           <Route path="/" element={<Home />} />

@@ -1,44 +1,15 @@
-nav {
-  padding: 1rem;
+.App {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-.user-info {
-  border: 1px solid black;
-  border-radius: 50px;
-  padding: 0 0.5rem 0 0;
-}
-
-.user-info span {
-  display: flex;
-  align-items: center;
-}
-
-.user-info span img {
-  width: 50px;
+.img-hero {
+  max-width: 100%;
+  width: 600px;
   height: auto;
-}
+  align-self: center;
 
-.logo {
-  display: flex;
-  align-items: center;
-  font-size: 2rem;
-  font-weight: bold;
-  gap: 0.8rem;
-  cursor: pointer;
-}
-
-.logo img {
-  width: var(--icon-size);
-  height: auto;
-}
-
-.log-info {
-  display: flex;
-  gap: 1rem;
+  margin: 1.5rem 0;
 }
 
 .container-actions {
@@ -65,5 +36,15 @@ nav {
 
   .logo img {
     width: calc(var(--icon-size) - 10px);
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .logo img {
+    width: calc(var(--icon-size) - 20px);
   }
 }
