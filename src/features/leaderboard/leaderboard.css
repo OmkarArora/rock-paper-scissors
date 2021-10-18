@@ -21,7 +21,8 @@
   padding: 1rem;
 }
 
-.table-leaderboard th {
+.table-leaderboard thead {
   color: var(--color-primary);
   font-size: 1.2rem;
+  font-weight: 500;
 }

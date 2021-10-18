@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getLeaderboard } from "./leaderboardSlice";
 import "./leaderboard.css";
+import { Loader } from "..";
 
 export const Leaderboard = () => {
   const { status, leaderboard } = useSelector((state) => state.leaderboard);
@@ -16,12 +17,14 @@ export const Leaderboard = () => {
 
   return (
     <div className="leaderboard">
-      {status === "loading" && "Loading..."}
+      {status === "loading" && <Loader text="calculating..." />}
       <table className="table-leaderboard">
         <thead>
-          <th>Rank</th>
-          <th>User</th>
-          <th>Score</th>
+          <tr>
+            <td>Rank</td>
+            <td>User</td>
+            <td>Score</td>
+          </tr>
         </thead>
         <tbody>
           {leaderboard &&

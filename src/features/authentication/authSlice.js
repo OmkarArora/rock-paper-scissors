@@ -151,6 +151,7 @@ export const authSlice = createSlice({
           token: state.token,
         })
       );
+      state.status = "success";
     },
     [getUserDetailsFromUsername.rejected]: (state, action) => {
       state.status = "error";

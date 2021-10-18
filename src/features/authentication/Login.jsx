@@ -5,6 +5,7 @@ import { loginUser } from "../authentication/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import "./auth.css";
+import { Loader } from "..";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -47,6 +48,7 @@ export const Login = () => {
 
   return (
     <div className="container-auth">
+      {status === "loading" && <Loader text="logging in..." />}
       <header>Login</header>
       <small>
         New here? <Link to="/signup">Sign Up</Link>

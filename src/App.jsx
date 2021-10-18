@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from "react-router";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import PrivateRoute from "./PrivateRoute";
-import { Login, SignUp, Game, Leaderboard, Navbar } from "./features";
+import { Login, SignUp, Game, Leaderboard, Navbar, Loader } from "./features";
 import {
   getUserDetailsFromUsername,
   logoutUser,
@@ -38,7 +38,7 @@ function Home() {
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { token, userData } = useSelector((state) => state.auth);
+  const { token, userData, status } = useSelector((state) => state.auth);
 
   useEffect(() => {
     setupAuthHeaderForServiceCalls(token);
@@ -71,6 +71,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
+      {status === "loading" && <Loader text="loading user..." />}
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
