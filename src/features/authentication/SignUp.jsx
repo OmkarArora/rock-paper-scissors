@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { signupUser } from "../authentication/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
 import "./auth.css";
 
 export const SignUp = () => {
@@ -12,8 +13,9 @@ export const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
+  const alert = useAlert();
+
   const { isUserLoggedIn, status, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -24,10 +26,9 @@ export const SignUp = () => {
 
   useEffect(() => {
     if (status === "error" && error) {
-      // dispatch(showAlert({ type: "error", data: error }));
-      console.log(error);
+      alert.error(error);
     }
-  }, [error, status, dispatch]);
+  }, [error, status, alert, dispatch]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -35,12 +36,15 @@ export const SignUp = () => {
       /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/
     );
     if (!emailRegex.test(email)) {
-      console.log("Invalid email");
+      alert.error("Invalid email");
       return;
-      // return dispatch(showAlert({ type: "error", data: "Invalid email" }));
+    }
+    if (password.length < 8) {
+      alert.error("Passwords should be 8 characters long");
+      return;
     }
     if (password !== confirmPassword) {
-      console.log("Password should match Confirm password");
+      alert.error("Passwords don't match");
       return;
     }
     dispatch(signupUser({ name, email, password }));

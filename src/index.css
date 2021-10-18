@@ -49,3 +49,7 @@ button.rounded {
   padding: 1rem 1.2rem;
   border-radius: 50px;
 }
+
+#__react-alert__ div div div {
+  text-transform: initial !important;
+}

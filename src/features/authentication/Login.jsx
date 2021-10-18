@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { loginUser } from "../authentication/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
 import "./auth.css";
 
 export const Login = () => {
@@ -10,8 +11,9 @@ export const Login = () => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
+  const alert = useAlert();
+
   const { isUserLoggedIn, status, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -22,10 +24,9 @@ export const Login = () => {
 
   useEffect(() => {
     if (status === "error" && error) {
-      // dispatch(showAlert({ type: "error", data: error }));
-      console.log(error);
+      alert.error(error);
     }
-  }, [error, status, dispatch]);
+  }, [error, status, alert, dispatch]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -33,16 +34,14 @@ export const Login = () => {
       /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/
     );
     if (!emailRegex.test(email)) {
-      console.log("Invalid email");
+      alert.error("Invalid email");
       return;
-      // return dispatch(showAlert({ type: "error", data: "Invalid email" }));
     }
     dispatch(loginUser({ email, password }));
   };
 
   const onSubmitTestCreds = (e) => {
     e.preventDefault();
-    console.log("TEST LOGIN");
     dispatch(loginUser({ email: "user@gmail.com", password: "abcd@1234" }));
   };
 
